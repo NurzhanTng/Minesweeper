@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+
+import Start from "./components/Start";
+import Minesweeper from "./components/Minesweeper";
+import './static/css/App.css';
+import {gameModes} from "./models/gameParameters";
+
 
 function App() {
+  const [mode, setMode] = useState<gameModes | null>(null)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {mode ?
+        <Minesweeper mode={mode} setMode={setMode}/> :
+        <Start setMode={setMode} />
+      }
     </div>
   );
 }
