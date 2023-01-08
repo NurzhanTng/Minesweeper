@@ -1,0 +1,145 @@
+
+.minesweeper {
+    position: relative;
+}
+
+
+
+/* Board */
+
+.board {
+    display: flex;
+    user-select: none;
+    background-color: var(--background-green);
+    border: 5px solid var(--background-green-dark);
+    border-radius: 3px;
+
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.board__row {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* Cell */
+
+.cell {
+    width: 25px;
+    height: 25px;
+    position: relative;
+
+    transition: all 0.1s;
+}
+
+.cell_green {
+    background-color: var(--background-green);
+}
+
+.cell_dark-green {
+    background-color: var(--background-green-dark);
+}
+
+.cell_brown {
+    background-color: var(--background-brown);
+}
+
+.cell_dark-brown {
+    background-color: var(--background-brown-dark);
+}
+
+
+
+/* Number */
+
+.number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -125%, 0);
+
+    font-weight: bolder;
+    font-size: 20px;
+    transition: all 0.1s;
+}
+
+.number_blue {
+    color: var(--blue);
+}
+
+.number_green {
+    color: var(--green);
+}
+
+.number_red {
+    color: var(--red);
+}
+
+.number_violet {
+    color: var(--violet);
+}
+
+.number_orange {
+    color: var(--orange);
+}
+
+.number_pink {
+    color: var(--pink);
+}
+
+.number_yellow {
+    color: var(--yellow);
+}
+
+.number_gray {
+    color: var(--gray);
+}
+
+
+
+/* Mine */
+
+.mine {
+    position: relative;
+    transition: all 0.1s;
+}
+
+.mine::after {
+    content: '';
+    width: 11px;
+    height: 11px;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    border-radius: 50%;
+    background-color: hsla(0, 0%, 0%, 0.15);
+}
+
+.mine_yellow {
+    background-color: var(--yellow);
+}
+
+.mine_green {
+    background-color: var(--green);
+}
+
+.mine_red {
+    background-color: var(--red);
+}
+
+.mine_pink {
+    background-color: var(--pink);
+}
+
+.mine_orange {
+    background-color: var(--orange);
+}
+
+.mine_blue {
+    background-color: var(--blue);
+}

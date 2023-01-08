@@ -6,9 +6,9 @@ interface StartProps {
 
 function Start({ setMode }: StartProps) {
   return (
-    <div>
+    <div className='start'>
       <h2>Minesweeper</h2>
-      <button onClick={() => setMode(gameModes.EASY)}>start</button>
+      <button onClick={() => setMode(gameModes.HARD)}>start</button>
     </div>
   )
 }

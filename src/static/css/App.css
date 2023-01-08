@@ -1,38 +1,28 @@
-.App {
+
+:root {
+  /*  colors  */
+  --text: #fff;
+  --red: #db3236;
+  --green: #008744;
+  --blue: #4885ed;
+  --yellow: #f4c20d;
+  --orange: #f4840d;
+  --pink: #ed44b5;
+  --violet: #7b1fa2;
+  --gray: #6c6c6c;
+  --background-brown: #e5c29f;
+  --background-brown-dark: #d7b899;
+  --background-green: #aad751;
+  --background-green-dark: #a2d149;
+
+  /*  images  */
+  --time-icon: url('../image/chronometer.png');
+  --flag-icon: url('../image/red-flag.png');
+  /*  spacing  */
+  /*  text  */
+}
+
+.start {
+  margin-top: 80px;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
