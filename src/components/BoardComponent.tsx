@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import Board from "../models/Board";
 import Cell from "../models/Cell";
 import CellComponent from "./CellComponent";
@@ -6,11 +6,13 @@ import CellComponent from "./CellComponent";
 
 interface BoardProps {
   board: Board;
-  startGame: (cell: Cell) => void;
-  restart: () => void;
 }
 
-const BoardComponent: FC<BoardProps> = ({ board, startGame, restart }) => {
+const BoardComponent: FC<BoardProps> = ({ board }) => {
+
+  function gameOver() {
+
+  }
 
   return (
     <div className='board'>
@@ -18,9 +20,8 @@ const BoardComponent: FC<BoardProps> = ({ board, startGame, restart }) => {
         <div className='board__row' key={index}>
           {row.map(cell =>
             <CellComponent
-              restart={restart}
-              startGame={startGame}
               cell={cell}
+              board={board}
               key={cell.id}
             />
           )}

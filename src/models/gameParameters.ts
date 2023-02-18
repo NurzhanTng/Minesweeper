@@ -33,6 +33,7 @@ export enum CellColors {
   DARK_BROWN = 'dark-brown',
 }
 
+
 export const NumberColors = {
   [-1]: '',
   1: 'blue',
@@ -44,6 +45,7 @@ export const NumberColors = {
   7: 'yellow',
   8: 'gray'
 }
+
 
 export const MineColors = [
   'yellow',

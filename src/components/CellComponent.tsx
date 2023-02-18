@@ -1,56 +1,61 @@
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import Cell from "../models/Cell";
 import randomInt from "../utils/randInt";
 import {MineColors} from "../models/gameParameters";
+import CellMenu from "./CellMenu";
+import Board from "../models/Board";
 
 
 interface CellProps {
   cell: Cell,
-  startGame: (cell: Cell) => void;
-  restart: () => void;
+  board: Board,
 }
 
-const CellComponent: FC<CellProps> = ({ cell, startGame, restart }) => {
-  const [menuShown, setMenuShown] = useState(false);
-
-  function click(target: Cell) {
-    console.log('clicked');
-
-    if (!target.board.isStarted) {
-      console.log('Game not started')
-      startGame(target);
-      click(target);
-      return;
-    }
-
-    if (target.isMine()) {
-      console.log('Game over');
-      // restart();
-      return;
-    }
+const CellComponent: FC<CellProps> = ({ cell, board}) => {
+  let menuClicked = false;
+  const isGameOverWrongFlag = cell.isFlagOver && !cell.isMine() && board.gameOver;
+  const isMine = cell.isVisible && cell.isMine();
+  console.log(cell, isGameOverWrongFlag, isMine);
 
 
+  function onDig() {
+    menuClicked = true;
+    board.click(cell);
   }
+
+  function onFlag() {
+    menuClicked = true;
+    board.selectedCell = null
+    cell.isFlagOver = !cell.isFlagOver;
+    board.updateBoard();
+  }
+
+  function onCancel() {
+    menuClicked = true;
+    const newBoard = board.updateBoard();
+    newBoard.selectedCell = null;
+  }
+
 
   return (
     <div
+      onClick={() => (!menuClicked) ? board.click(cell) : menuClicked = false}
       className={[
-        'cell',
-        `cell_${cell.color}`,
-        // (cell.isVisible && cell.isMine()) ? 'mine' : '',
-        // (cell.isVisible && cell.isMine()) ? `mine_${ MineColors[randomInt(0, 5)] }` : '',
-        (cell.isMine()) ? 'mine' : '',
-        (cell.isMine()) ? `mine_${ MineColors[randomInt(0, 5)] }` : '',
+        `cell cell_${cell.color}`,
+        (isGameOverWrongFlag) ? 'cell__flag_wrong' : '',
+        (isMine) ? `mine mine_${ MineColors[randomInt(0, 5)] }` : '',
       ].join(' ')}
-      onClick={() => click(cell)}
     >
-      {menuShown && (
-        <div />
+      {board.selectedCell === cell && (
+        <CellMenu cell={cell} onDig={onDig} onFlag={onFlag} onCancel={onCancel} />
       )}
       {(!cell.isMine() && cell.value !== 0 && cell.isVisible) && (
         <p className={['number', `number_${cell.getColor()} : ''`].join(' ')}>
           {cell.value}
         </p>
+      )}
+      {cell.isFlagOver && (
+        <div className='cell__flag' />
       )}
     </div>
   );

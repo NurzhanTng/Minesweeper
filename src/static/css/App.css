@@ -14,10 +14,12 @@
   --background-brown-dark: #d7b899;
   --background-green: #aad751;
   --background-green-dark: #a2d149;
+  --cell-menu: #578a34;
 
   /*  images  */
   --time-icon: url('../image/chronometer.png');
   --flag-icon: url('../image/red-flag.png');
+  --chovel-icon: url('../image/shovel.png')
   /*  spacing  */
   /*  text  */
 }
@@ -25,4 +27,10 @@
 .start {
   margin-top: 80px;
   text-align: center;
+}
+
+.start button {
+  padding: 5px 30px;
+  border-radius: 10px;
+  border: 2px solid var(--gray);
 }

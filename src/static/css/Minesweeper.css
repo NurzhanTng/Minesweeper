@@ -8,7 +8,7 @@
 /* Board */
 
 .board {
-    display: flex;
+    /*display: flex;*/
     user-select: none;
     background-color: var(--background-green);
     border: 5px solid var(--background-green-dark);
@@ -22,7 +22,7 @@
 
 .board__row {
     display: flex;
-    flex-direction: column;
+    /*flex-direction: column;*/
 }
 
 
@@ -35,6 +35,17 @@
     position: relative;
 
     transition: all 0.1s;
+}
+
+.cell__flag {
+    position: relative;
+    content: '';
+    height: 25px;
+    width: 25px;
+
+    z-index: 2;
+    background: var(--flag-icon) no-repeat center center;
+    background-size: 18px;
 }
 
 .cell_green {
@@ -53,6 +64,21 @@
     background-color: var(--background-brown-dark);
 }
 
+.cell__flag_wrong {
+    box-sizing: border-box;
+    border: 2px solid var(--red);
+}
+
+.cell__flag_wrong::after {
+    content: "x";
+    position: absolute;
+    top: -23px;
+    left: 1px;
+
+    font-size: 40px;
+    color: var(--red);
+}
+
 
 
 /* Number */
@@ -61,7 +87,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -125%, 0);
+    transform: translate3d(-50%, -130%, 0);
 
     font-weight: bolder;
     font-size: 20px;
@@ -142,4 +168,80 @@
 
 .mine_blue {
     background-color: var(--blue);
+}
+
+
+
+/* Menu (Cell Menu) */
+
+.menu {
+    position: absolute;
+    top: -35px;
+    left: -35px;
+    z-index: 5;
+}
+
+.menu::after {
+    content: '';
+    position: absolute;
+    left: 34px;
+    top: 34px;
+
+    height: 23px;
+    width: 23px;
+
+    border: 2px solid var(--cell-menu);
+}
+
+.menu__cancel {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+
+    width: 21px;
+    height: 21px;
+
+    border-radius: 50%;
+    border: none;
+    background-color: var(--cell-menu);
+}
+
+.menu__x {
+
+}
+
+.menu__shovel, .menu__flag {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+
+    border-radius: 50%;
+    border: none;
+    background-color: var(--cell-menu);
+}
+
+.menu__shovel {
+    left: 32px;
+}
+
+.menu__flag {
+    top: 32px;
+}
+
+.menu__shovel-icon, .menu__flag-icon {
+    margin-left: -7px;
+    margin-top: -2px;
+
+    width: 32px;
+    height: 32px;
+}
+
+.menu__shovel-icon {
+    background: var(--chovel-icon) no-repeat center center;
+    background-size: cover;
+}
+
+.menu__flag-icon {
+    background: var(--flag-icon) no-repeat center center;
+    background-size: cover;
 }

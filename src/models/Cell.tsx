@@ -3,24 +3,22 @@ import Board from "./Board";
 
 
 export default class Cell {
-  board: Board;
   readonly x: number;
   readonly y: number;
   value: number;
   color: CellColors;
   isVisible: boolean;
   isFlagOver: boolean;
-  readonly id: number;
+  readonly id: string;
 
-  constructor(board: Board, x: number, y: number, color:CellColors) {
-    this.board = board;
+  constructor(x: number, y: number, color:CellColors) {
     this.x = x;
     this.y = y;
     this.color = color;
     this.value = 0;
     this.isVisible = false;
     this.isFlagOver = false;
-    this.id = Math.random();
+    this.id = `[${x}, ${y}]`;
   }
 
   createMine(): void {
@@ -31,35 +29,73 @@ export default class Cell {
     return this.value === -1;
   }
 
-  openCells(target: Cell) {
-    if (!target.isVisible) {
-      if (target.value === 0) {
-        const cells = target.returnNearOpenCells(target)
-        for (const cell of cells) {
-          cell.isVisible = true;
-          cell.changeBackgroundColor();
-        }
-        return;
-      }
+  digUpCell(board: Board) {
+    if (this.isVisible) {
+      const nearCells = this.nearCells(board);
+      const flagCount = nearCells.reduce((sum, cell) => (cell.isFlagOver) ? sum + 1: sum, 0);
+      const emptyCellsCount = nearCells.reduce((sum, cell) => (!cell.isVisible) ? sum + 1: sum, 0);
 
-      target.isVisible = true;
-      target.changeBackgroundColor();
+      if (!(this.value === flagCount && flagCount < emptyCellsCount)) return;
+
+      nearCells.forEach((cell) => {
+        if (!cell.isFlagOver && !cell.isVisible) cell.digUpCell(board);
+      });
+
+      return;
     }
+
+    if (this.isMine()) {
+      this.isVisible = true;
+      const newBoard = board.updateBoard();
+      newBoard.gameEnd();
+      return;
+    }
+
+    if (this.value !== 0) {
+      this.openCell();
+      return;
+    }
+
+    this.returnNearOpenCells(board).forEach(( cell ) => {
+      cell.openCell();
+    });
   }
 
-  returnNearOpenCells(target: Cell, cells: Cell[] = []): Cell[] {
-    if (!cells.includes(target))
-      cells.push(target);
+  openCell() {
+    this.isVisible = true;
+    this.changeBackgroundColor();
+  }
 
-    const nearCells: Cell[] = target.board.nearCells(target);
+  returnNearOpenCells(board: Board, cells: Cell[] = []): Cell[] {
+    if (!cells.includes(this))
+      cells.push(this);
+
+    const nearCells: Cell[] = this.nearCells(board);
 
     for (let cell of nearCells) {
-      if (cell.isMine())
-        continue
-      if (cell.value === 0 && !cells.includes(cell))
-        cells = this.returnNearOpenCells(cell, cells)
-      else if (!cells.includes(cell))
+      if (cell.isMine()) continue;
+      if (cell.value === 0 && !cells.includes(cell)) {
+        cells = cell.returnNearOpenCells(board, cells)
+      }
+      else if (!cells.includes(cell)) {
         cells.push(cell);
+      }
+    }
+
+    return cells
+  }
+
+  nearCells(board: Board) {
+    let cells: Cell[] = []
+
+    for (let row of board.cells) {
+      for (let cell of row) {
+        const dx = Math.abs(cell.x - this.x);
+        const dy = Math.abs(cell.y - this.y);
+
+        if ( dx <= 1 && dy <=1 && !(dx === 0 && dy === 0))
+          cells.push(cell);
+      }
     }
 
     return cells

@@ -15,31 +15,54 @@ interface MinesweeperProps {
 
 function Minesweeper({ mode, setMode }: MinesweeperProps) {
   const [isStarted, setIsStarted] = useState(false);
-  const [board, setBoard] = useState(new Board({...BoardParameters[mode], isStarted, setIsStarted} ));
+  const [board, setBoard] = useState(new Board({
+    ...BoardParameters[mode],
+    isStarted,
+    setIsStarted,
+    startGame,
+    restart,
+    updateBoard,
+  }));
 
   useEffect(() => {
     restart();
   }, [])
 
   function restart() {
-    const newBoard = new Board( {...BoardParameters[mode], isStarted, setIsStarted} );
+    const newBoard = new Board( {
+      ...BoardParameters[mode],
+      isStarted,
+      setIsStarted,
+      startGame,
+      restart,
+      updateBoard
+    });
     newBoard.initCells();
     setBoard( newBoard );
   }
 
   function startGame(target: Cell) {
+    board.initCells()
     board.createMines(target);
     board.createNumberCells();
     setIsStarted(true);
     board.isStarted = true;
+    updateBoard();
+  }
+
+  function updateBoard(newBoard?: Board) {
+    if (newBoard) {
+      setBoard(newBoard.copy())
+      return newBoard.copy()
+    }
+    setBoard( board.copy() );
+    return board.copy();
   }
 
   return (
     <div className='minesweeper'>
       <BoardComponent
         board={board}
-        startGame={ (cell: Cell) => startGame(cell) }
-        restart={ () => restart() }
       />
     </div>
   );
